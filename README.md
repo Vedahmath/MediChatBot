@@ -175,4 +175,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Google Gemini API for providing the language model
 - Flask for the web framework
 - Bootstrap for the UI components
-     
+
+
+## Here is the image of how the User Interface looks
+![Image](https://github.com/user-attachments/assets/99a9d2a1-355c-43ef-b976-7820029d2ea0)
+
+
