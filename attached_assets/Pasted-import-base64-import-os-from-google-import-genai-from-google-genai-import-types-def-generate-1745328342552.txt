@@ -1,0 +1,60 @@
+import base64
+import os
+from google import genai
+from google.genai import types
+
+
+def generate():
+    client = genai.Client(
+        api_key=os.environ.get("GEMINI_API_KEY"),
+    )
+
+    model = "gemini-2.5-pro-preview-03-25"
+    contents = [
+        types.Content(
+            role="user",
+            parts=[
+                types.Part.from_text(text="""hello
+"""),
+            ],
+        ),
+        types.Content(
+            role="model",
+            parts=[
+                types.Part.from_text(text="""Thinking Process:
+
+1.  **Identify the input:** The user said \"hello\".
+2.  **Recognize the intent:** This is a standard greeting.
+3.  **Determine the appropriate response:** The standard response to a greeting is a reciprocal greeting.
+4.  **Formulate the response:**
+    *   Start with a greeting: \"Hello!\" or \"Hi there!\" or \"Hey!\"
+    *   Optionally, add a follow-up question or offer of help to encourage further interaction. Common options include:
+        *   \"How are you today?\"
+        *   \"How can I help you?\"
+        *   \"What can I do for you?\"
+        *   \"Nice to meet you!\" (if it's the first interaction)
+5.  **Select the best response:** A simple, friendly greeting followed by an offer of help is generally a good default for an AI assistant. \"Hello there! How can I help you today?\" or \"Hi! What can I do for you?\" are good choices. \"Hello!\" is also perfectly fine and direct.
+6.  **Final Output:** \"Hello there! How can I help you today?\" (or a similar variation)."""),
+                types.Part.from_text(text="""Hello there! How can I help you today?"""),
+            ],
+        ),
+        types.Content(
+            role="user",
+            parts=[
+                types.Part.from_text(text="""INSERT_INPUT_HERE"""),
+            ],
+        ),
+    ]
+    generate_content_config = types.GenerateContentConfig(
+        response_mime_type="text/plain",
+    )
+
+    for chunk in client.models.generate_content_stream(
+        model=model,
+        contents=contents,
+        config=generate_content_config,
+    ):
+        print(chunk.text, end="")
+
+if __name__ == "__main__":
+    generate()
